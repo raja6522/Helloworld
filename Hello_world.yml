@@ -1,10 +1,19 @@
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: helloworldapp
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  minReadySeconds: 30 
+  selector:
+    matchLabels:
+      name: helloworld
   template:
     metadata:
       labels:
