@@ -14,7 +14,7 @@ spec:
       - image: raja6522/helloworld
         name: helloworldcontainer
         ports:
-          containerPort: 8080  
+        - containerPort: 8080  
 ---
 apiVersion: v1
 kind: Service
