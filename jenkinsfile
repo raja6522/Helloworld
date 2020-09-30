@@ -1,0 +1,32 @@
+node{
+     
+    stage('Git Checkout'){
+       git credentialsId: 'Git-credentials', url: 'https://github.com/raja6522/Helloworld.git', branch: 'master'  
+    }
+    stage("Build Package"){
+      def mavenHome =  tool name: "Maven-3.6.3", type: "maven"
+      sh "${mavenHome}/bin/mvn clean package"
+    } 
+    
+    stage('Build Docker Image'){
+        sh 'docker build -t raja6522/helloworld .'
+    }
+    stage('Push Docker Image'){
+       withCredentials([string(credentialsId: 'Dockerhub-credentials', variable: 'Docker_Hub_password')]) {
+          sh "docker login -u raja6522 -p ${DOCKER_HUB_PASSWORD}"
+        }
+        sh 'docker push raja6522/helloworld'
+     }
+     /**
+     stage("Deploy To Kuberates Cluster"){
+       kubernetesDeploy(
+         configs: 'Hello_world.yml', 
+         kubeconfigId: 'kubernetes_cluster_config',
+        )
+     } **/
+	 
+	  
+      stage("Deploy To Kuberates Cluster"){
+        sh 'kubectl apply -f Hello_world.yml'
+      } 
+    }
