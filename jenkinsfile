@@ -5,6 +5,14 @@ node{
         pollSCM('* * * * *')
     ])
 ])
+ echo "GitHub BranhName ${env.BRANCH_NAME}"
+  echo "Jenkins Job Number ${env.BUILD_NUMBER}"
+  echo "Jenkins Node Name ${env.NODE_NAME}"
+  
+  echo "Jenkins Home ${env.JENKINS_HOME}"
+  echo "Jenkins URL ${env.JENKINS_URL}"
+  echo "JOB Name ${env.JOB_NAME}"
+  
     stage('Git Checkout'){
        git credentialsId: 'Git-credentials', url: 'https://github.com/raja6522/Helloworld.git', branch: 'master'  
     }
