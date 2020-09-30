@@ -1,5 +1,10 @@
 node{
-     
+     properties([
+    buildDiscarder(logRotator(numToKeepStr: '3')),
+    pipelineTriggers([
+        pollSCM('* * * * *')
+    ])
+])
     stage('Git Checkout'){
        git credentialsId: 'Git-credentials', url: 'https://github.com/raja6522/Helloworld.git', branch: 'master'  
     }
